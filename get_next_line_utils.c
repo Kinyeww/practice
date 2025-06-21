@@ -19,7 +19,7 @@ char	*ft_strjoin(char *s1, char *s2)
         str[i + k] = s2[k];
         k++;
     }
-    str[i +k] = '\0';
+    str[i + k] = '\0';
     return (str);
 }
 
