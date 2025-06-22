@@ -59,6 +59,7 @@
 
 		if (fd < 0 || BUFFER_SIZE <= 0)
 			return (NULL);
+		saves = NULL;
 		if (leftovers)
 			saves = ft_strdup(leftovers);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -76,7 +77,8 @@
 			leftovers = save_leftovers(saves, leftovers);
 		else
 			leftovers = NULL;
-		printf("bytes_read = %d\n", bytes_read);
+		if (!newline && saves && *saves != '\0')
+			return (saves);
 		return (ft_one_line(saves));
 	}
 
