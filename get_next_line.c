@@ -11,6 +11,7 @@
 	/* ************************************************************************** */
 
 	#include "get_next_line.h"
+	#include <stdio.h>
 
 	//int	open(const char *path, int flags [, int mode ])
 
@@ -19,9 +20,10 @@
 		int	i;
 
 		i = 0;
+		free (leftovers);
 		while (saves[i] != '\n')
 			i++;
-		leftovers = ft_substr(saves, i + 1);
+		leftovers = ft_substr_all(saves, i + 1);
 		return (leftovers);
 	}
 
@@ -37,7 +39,7 @@
 			i++;
 		one_line = malloc(sizeof(char) * i + 1);
 		k = 0;
-		while (i <= k)
+		while (k <= i)
 		{
 			one_line[k] = saves[k];
 			k++;
@@ -47,30 +49,19 @@
 		return (one_line);
 	}
 
-	char *put_leftovers(char *saves, char *leftovers)
-	{
-		int	i;
-
-		i = 0;
-		saves = malloc(sizeof(char) * ft_strlen(leftovers))
-		while (leftovers[i])
-		{
-			saves[i] = leftovers[i];
-			i++;
-		}
-		return (leftovers);
-	}
-
 	char	*get_next_line(int fd)
 	{
 		char buffer[BUFFER_SIZE + 1]; //scoop
 		int bytes_read;
 		char *saves; //eating bowl
 		static char *leftovers;
+		char	*newline;
 
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (fd < 0 || BUFFER_SIZE <= 0)
+			return (NULL);
 		if (leftovers)
-			put_leftovers(saves, leftovers);
+			saves = ft_strdup(leftovers);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		while (bytes_read > 0)
 		{
 			buffer[bytes_read] = '\0';
@@ -79,18 +70,30 @@
 				break;
 			bytes_read = read(fd, buffer, BUFFER_SIZE);
 		}
-		if ((ft_strchr(saves, '\n')) + 1 != '\0')
+		newline = ft_strchr(saves, '\n');
+		free (leftovers);
+		if (newline && *(newline + 1) != '\0')
 			leftovers = save_leftovers(saves, leftovers);
 		else
 			leftovers = NULL;
+		printf("bytes_read = %d\n", bytes_read);
 		return (ft_one_line(saves));
 	}
 
-	int main(void)
-	{
-		int fd;
+int	main(void)
+{
+	int		fd;
+	char	*line;
 
-		fd = open("abclyrics.txt", O_RDONLY);
-		write(1, get_next_line(fd), 999);
-		return (0);
+	fd = open("abclyrics.txt", O_RDONLY);
+	if (fd < 0)
+		return (1);
+	line = get_next_line(fd);
+	if (line)
+	{
+		write(1, line, ft_strlen(line));
+		free(line);
 	}
+	close(fd);
+	return (0);
+}
