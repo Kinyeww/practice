@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ckin-yew <ckin-yew@student.42kl.edu.m      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 15:58:12 by ckin-yew          #+#    #+#             */
+/*   Updated: 2025/06/23 15:58:17 by ckin-yew         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -8,8 +20,10 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (NULL);
-	if (!s1 || !s2)
-		return (ft_strdup(s1 ? s1 : s2));
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return (NULL);
@@ -23,37 +37,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
+	free (s1);	
 	return (str);
 }
-
-/*char	*ft_strjoin(char *s1, char *s2)
-{
-	int i;
-	int k;
-	char *str;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	i = ft_strlen (s1);
-	k = ft_strlen (s2);
-	str = malloc(sizeof(char) * (i + k + 1)); //one for \n and one for \0
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[k])
-	{
-		str[i + k] = s2[k];
-		k++;
-	}
-	str[i + k] = '\0';
-	return (str);
-}*/
 
 size_t ft_strlen(const char *s)
 {
@@ -109,6 +95,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{

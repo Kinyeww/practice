@@ -13,8 +13,8 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdlib.h>  // for malloc, free
-# include <unistd.h>  // for read
+# include <stdlib.h>
+# include <unistd.h>
 # include <fcntl.h>
 
 #ifndef BUFFER_SIZE
@@ -29,6 +29,12 @@ size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(const char *s);
-char    *ft_substr_all(char *s, unsigned int start);
+char	*ft_substr_all(char *s, unsigned int start);
 
 #endif
+
+		/*buffer[bytes_read] = '\0';
+		saves = ft_strjoin(saves, buffer);
+		if (ft_strchr(saves, '\n'))	
+			break;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);*/
