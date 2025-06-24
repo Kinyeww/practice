@@ -60,6 +60,8 @@ char    *ft_substr_all(char *s, unsigned int start)
 	i = start;
 	j = 0;
 	substr = malloc(sizeof(char) * ft_strlen(s + start) + 1);
+	if (!substr)
+		return (NULL);
 	while (s[i])
 	{
 		substr[j] = s[i];
@@ -75,6 +77,8 @@ char	*ft_strdup(const char *s1)
 	int	i;
 	char	*s1cpy;
 
+	if (!s1)
+		return (NULL);
 	i = 0;
 	while (s1[i] != '\0')
 		i++;
